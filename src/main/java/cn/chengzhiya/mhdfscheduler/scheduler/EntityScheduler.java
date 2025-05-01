@@ -8,8 +8,6 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
-
 public final class EntityScheduler {
     private BukkitScheduler bukkitScheduler;
 
@@ -19,26 +17,26 @@ public final class EntityScheduler {
         }
     }
 
-    public MHDFTask runTask(@NotNull Plugin plugin, @NotNull Entity entity, @NotNull Consumer<Object> task, @Nullable Runnable retired) {
+    public MHDFTask runTask(@NotNull Plugin plugin, @NotNull Entity entity, @NotNull Runnable task, @Nullable Runnable retired) {
         if (!MHDFScheduler.isFolia()) {
-            return new MHDFTask(bukkitScheduler.runTask(plugin, () -> task.accept(null)));
+            return new MHDFTask(bukkitScheduler.runTask(plugin, task));
         }
 
-        return new MHDFTask(entity.getScheduler().run(plugin, (o) -> task.accept(null), retired));
+        return new MHDFTask(entity.getScheduler().run(plugin, (o) -> task.run(), retired));
     }
 
-    public MHDFTask runTaskLater(@NotNull Plugin plugin, @NotNull Entity entity, @NotNull Consumer<Object> task, @Nullable Runnable retired, long delayTicks) {
+    public MHDFTask runTaskLater(@NotNull Plugin plugin, @NotNull Entity entity, @NotNull Runnable task, @Nullable Runnable retired, long delayTicks) {
         if (delayTicks < 1) {
             delayTicks = 1;
         }
 
         if (!MHDFScheduler.isFolia()) {
-            return new MHDFTask(bukkitScheduler.runTaskLater(plugin, () -> task.accept(null), delayTicks));
+            return new MHDFTask(bukkitScheduler.runTaskLater(plugin, task, delayTicks));
         }
-        return new MHDFTask(entity.getScheduler().runDelayed(plugin, (o) -> task.accept(null), retired, delayTicks));
+        return new MHDFTask(entity.getScheduler().runDelayed(plugin, (o) -> task.run(), retired, delayTicks));
     }
 
-    public MHDFTask runTaskTimer(@NotNull Plugin plugin, @NotNull Entity entity, @NotNull Consumer<Object> task, @Nullable Runnable retired, long initialDelayTicks, long periodTicks) {
+    public MHDFTask runTaskTimer(@NotNull Plugin plugin, @NotNull Entity entity, @NotNull Runnable task, @Nullable Runnable retired, long initialDelayTicks, long periodTicks) {
         if (initialDelayTicks < 1) {
             initialDelayTicks = 1;
         }
@@ -47,9 +45,9 @@ public final class EntityScheduler {
         }
 
         if (!MHDFScheduler.isFolia()) {
-            return new MHDFTask(bukkitScheduler.runTaskTimer(plugin, () -> task.accept(null), initialDelayTicks, periodTicks));
+            return new MHDFTask(bukkitScheduler.runTaskTimer(plugin, task, initialDelayTicks, periodTicks));
         }
 
-        return new MHDFTask(entity.getScheduler().runAtFixedRate(plugin, (o) -> task.accept(null), retired, initialDelayTicks, periodTicks));
+        return new MHDFTask(entity.getScheduler().runAtFixedRate(plugin, (o) -> task.run(), retired, initialDelayTicks, periodTicks));
     }
 }

@@ -45,7 +45,7 @@ _✨轻量 便携 快捷 支持Folia✨_
    <dependency>
       <groupId>cn.chengzhiya</groupId>
       <artifactId>MHDF-Scheduler</artifactId>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
       <scope>compile</scope>
    </dependency>
 </dependencies>

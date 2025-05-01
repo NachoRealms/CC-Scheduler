@@ -3,13 +3,12 @@ package cn.chengzhiya.mhdfscheduler.task;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
 
 public final class MHDFTask implements Task {
     private BukkitTask bukkitTask;
     private ScheduledTask scheduledTask;
 
-    public MHDFTask(@NotNull BukkitTask bukkitTask) {
+    public MHDFTask(BukkitTask bukkitTask) {
         this.bukkitTask = bukkitTask;
     }
 
