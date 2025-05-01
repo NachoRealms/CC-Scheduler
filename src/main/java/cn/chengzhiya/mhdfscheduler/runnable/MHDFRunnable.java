@@ -12,32 +12,32 @@ public abstract class MHDFRunnable implements Runnable {
 
     @Override
     public void runTask(JavaPlugin plugin) {
-        this.mhdfTask = MHDFScheduler.getGlobalRegionScheduler().runTask(plugin, (task) -> run());
+        this.mhdfTask = MHDFScheduler.getGlobalRegionScheduler().runTask(plugin, this::run);
     }
 
     @Override
     public void runTaskLater(JavaPlugin plugin, long delay) {
-        this.mhdfTask = MHDFScheduler.getGlobalRegionScheduler().runTaskLater(plugin, (task) -> run(), delay);
+        this.mhdfTask = MHDFScheduler.getGlobalRegionScheduler().runTaskLater(plugin, this::run, delay);
     }
 
     @Override
     public void runTaskTimer(JavaPlugin plugin, long delay, long period) {
-        this.mhdfTask = MHDFScheduler.getGlobalRegionScheduler().runTaskTimer(plugin, (task) -> run(), delay, period);
+        this.mhdfTask = MHDFScheduler.getGlobalRegionScheduler().runTaskTimer(plugin, this::run, delay, period);
     }
 
     @Override
     public void runTaskAsynchronously(JavaPlugin plugin) {
-        this.mhdfTask = MHDFScheduler.getAsyncScheduler().runTask(plugin, (task) -> run());
+        this.mhdfTask = MHDFScheduler.getAsyncScheduler().runTask(plugin, this::run);
     }
 
     @Override
     public void runTaskLaterAsynchronously(JavaPlugin plugin, long delay) {
-        this.mhdfTask = MHDFScheduler.getAsyncScheduler().runTaskLater(plugin, (task) -> run(), delay);
+        this.mhdfTask = MHDFScheduler.getAsyncScheduler().runTaskLater(plugin, this::run, delay);
     }
 
     @Override
     public void runTaskTimerAsynchronously(JavaPlugin plugin, long delay, long period) {
-        this.mhdfTask = MHDFScheduler.getAsyncScheduler().runTaskTimer(plugin, (task) -> run(), delay, period);
+        this.mhdfTask = MHDFScheduler.getAsyncScheduler().runTaskTimer(plugin, this::run, delay, period);
     }
 
     @Override
