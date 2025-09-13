@@ -1,17 +1,17 @@
-package cn.chengzhiya.mhdfscheduler.scheduler;
+package cn.chengzhimeow.ccscheduler.scheduler;
 
-import cn.chengzhiya.mhdfscheduler.scheduler.impl.AsyncScheduler;
-import cn.chengzhiya.mhdfscheduler.scheduler.impl.EntityScheduler;
-import cn.chengzhiya.mhdfscheduler.scheduler.impl.GlobalRegionScheduler;
-import cn.chengzhiya.mhdfscheduler.scheduler.impl.RegionScheduler;
+import cn.chengzhimeow.ccscheduler.scheduler.impl.AsyncScheduler;
+import cn.chengzhimeow.ccscheduler.scheduler.impl.EntityScheduler;
+import cn.chengzhimeow.ccscheduler.scheduler.impl.GlobalRegionScheduler;
+import cn.chengzhimeow.ccscheduler.scheduler.impl.RegionScheduler;
 import lombok.Getter;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public final class MHDFScheduler {
+public final class CCScheduler {
     @Getter
-    private static MHDFScheduler instance;
+    private static CCScheduler instance;
 
     private final boolean folia;
 
@@ -20,7 +20,7 @@ public final class MHDFScheduler {
     private final GlobalRegionScheduler globalRegionScheduler;
     private final RegionScheduler regionScheduler;
 
-    private MHDFScheduler() {
+    private CCScheduler() {
         boolean folia = false;
         try {
             Class.forName("io.papermc.paper.threadedregions.RegionizedServer");

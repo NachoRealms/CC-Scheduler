@@ -1,19 +1,19 @@
-package cn.chengzhiya.mhdfscheduler.task;
+package cn.chengzhimeow.ccscheduler.task;
 
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import lombok.Getter;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
-public final class MHDFTask implements Task {
+public final class CCTask implements Task {
     private Object taskHandle;
     @Getter
     private boolean folia;
 
-    public MHDFTask() {
+    public CCTask() {
     }
 
-    public MHDFTask(Object taskHandle) {
+    public CCTask(Object taskHandle) {
         this.folia = taskHandle instanceof ScheduledTask;
         this.taskHandle = taskHandle;
     }

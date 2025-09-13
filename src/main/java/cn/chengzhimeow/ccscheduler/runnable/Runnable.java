@@ -1,6 +1,6 @@
-package cn.chengzhiya.mhdfscheduler.runnable;
+package cn.chengzhimeow.ccscheduler.runnable;
 
-import cn.chengzhiya.mhdfscheduler.task.Task;
+import cn.chengzhimeow.ccscheduler.task.Task;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public interface Runnable extends Task {

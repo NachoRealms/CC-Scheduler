@@ -1,4 +1,4 @@
-package cn.chengzhiya.mhdfscheduler.task;
+package cn.chengzhimeow.ccscheduler.task;
 
 import org.bukkit.plugin.Plugin;
 

@@ -1,4 +1,4 @@
-package cn.chengzhiya.mhdfscheduler.scheduler;
+package cn.chengzhimeow.ccscheduler.scheduler;
 
 public enum SchedulerType {
     ONLY_RUN,

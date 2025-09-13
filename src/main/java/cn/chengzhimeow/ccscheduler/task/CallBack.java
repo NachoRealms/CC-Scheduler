@@ -1,4 +1,4 @@
-package cn.chengzhiya.mhdfscheduler.task;
+package cn.chengzhimeow.ccscheduler.task;
 
 public interface CallBack<T> {
     T getCallBack();

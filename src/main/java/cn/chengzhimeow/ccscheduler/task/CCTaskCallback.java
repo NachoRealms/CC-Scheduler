@@ -1,8 +1,8 @@
-package cn.chengzhiya.mhdfscheduler.task;
+package cn.chengzhimeow.ccscheduler.task;
 
 import java.util.concurrent.CompletableFuture;
 
-public final class MHDFTaskCallback<T> implements CallBack<T> {
+public final class CCTaskCallback<T> implements CallBack<T> {
     private final CompletableFuture<Boolean> lock = new CompletableFuture<>();
     private T callback;
 

@@ -1,8 +1,8 @@
-package cn.chengzhiya.mhdfscheduler.scheduler.impl;
+package cn.chengzhimeow.ccscheduler.scheduler.impl;
 
-import cn.chengzhiya.mhdfscheduler.scheduler.MHDFScheduler;
-import cn.chengzhiya.mhdfscheduler.scheduler.SchedulerType;
-import cn.chengzhiya.mhdfscheduler.task.MHDFTask;
+import cn.chengzhimeow.ccscheduler.scheduler.CCScheduler;
+import cn.chengzhimeow.ccscheduler.scheduler.SchedulerType;
+import cn.chengzhimeow.ccscheduler.task.CCTask;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,36 +14,36 @@ import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public final class AsyncScheduler {
-    private final MHDFScheduler mhdfScheduler;
+    private final CCScheduler ccScheduler;
     private final Object schedulerHandle;
 
-    public AsyncScheduler(MHDFScheduler mhdfScheduler) {
-        this.mhdfScheduler = mhdfScheduler;
-        if (this.mhdfScheduler.isFolia()) this.schedulerHandle = Bukkit.getAsyncScheduler();
+    public AsyncScheduler(CCScheduler ccScheduler) {
+        this.ccScheduler = ccScheduler;
+        if (this.ccScheduler.isFolia()) this.schedulerHandle = Bukkit.getAsyncScheduler();
         else this.schedulerHandle = Bukkit.getScheduler();
     }
 
     @SuppressWarnings("unchecked")
-    public MHDFTask handle(JavaPlugin plugin, Object task, long delay, long period) {
-        MHDFTask mhdfTask = new MHDFTask();
+    public CCTask handle(JavaPlugin plugin, Object task, long delay, long period) {
+        CCTask ccTask = new CCTask();
 
         Runnable runnable;
         if (task instanceof Runnable r) runnable = r;
         else if (task instanceof Consumer<?> consumer)
-            runnable = () -> ((Consumer<MHDFTask>) consumer).accept(mhdfTask);
+            runnable = () -> ((Consumer<CCTask>) consumer).accept(ccTask);
         else throw new IllegalArgumentException("task needs to be a Runnable or a Consumer");
 
         SchedulerType schedulerType = SchedulerType.formDelayAndPeriod(delay, period);
-        if (!this.mhdfScheduler.isFolia()) {
+        if (!this.ccScheduler.isFolia()) {
             BukkitScheduler scheduler = (BukkitScheduler) this.schedulerHandle;
-            mhdfTask.setTaskHandle(switch (schedulerType) {
+            ccTask.setTaskHandle(switch (schedulerType) {
                 case ONLY_RUN -> scheduler.runTaskAsynchronously(plugin, runnable);
                 case DELAY_RUN -> scheduler.runTaskLaterAsynchronously(plugin, runnable, delay);
                 case TASK_RUN -> scheduler.runTaskTimerAsynchronously(plugin, runnable, delay, period);
             });
         } else {
             io.papermc.paper.threadedregions.scheduler.AsyncScheduler scheduler = (io.papermc.paper.threadedregions.scheduler.AsyncScheduler) this.schedulerHandle;
-            mhdfTask.setTaskHandle(switch (schedulerType) {
+            ccTask.setTaskHandle(switch (schedulerType) {
                 case ONLY_RUN -> scheduler.runNow(plugin, (o) -> runnable.run());
                 case DELAY_RUN ->
                         scheduler.runDelayed(plugin, (o) -> runnable.run(), delay * 50, TimeUnit.MILLISECONDS);
@@ -52,11 +52,11 @@ public final class AsyncScheduler {
             });
         }
 
-        return mhdfTask;
+        return ccTask;
     }
 
     public void cancel(@NotNull Plugin plugin) {
-        if (!this.mhdfScheduler.isFolia()) {
+        if (!this.ccScheduler.isFolia()) {
             BukkitScheduler scheduler = (BukkitScheduler) this.schedulerHandle;
             scheduler.cancelTasks(plugin);
         } else {
@@ -65,27 +65,27 @@ public final class AsyncScheduler {
         }
     }
 
-    public MHDFTask runTask(JavaPlugin plugin, Runnable runnable) {
+    public CCTask runTask(JavaPlugin plugin, Runnable runnable) {
         return this.handle(plugin, runnable, 0L, 0L);
     }
 
-    public MHDFTask runTask(JavaPlugin plugin, Consumer<MHDFTask> consumer) {
+    public CCTask runTask(JavaPlugin plugin, Consumer<CCTask> consumer) {
         return this.handle(plugin, consumer, 0L, 0L);
     }
 
-    public MHDFTask runTaskLater(JavaPlugin plugin, Runnable runnable, long delay) {
+    public CCTask runTaskLater(JavaPlugin plugin, Runnable runnable, long delay) {
         return this.handle(plugin, runnable, delay, 0L);
     }
 
-    public MHDFTask runTaskLater(JavaPlugin plugin, Consumer<MHDFTask> consumer, long delay) {
+    public CCTask runTaskLater(JavaPlugin plugin, Consumer<CCTask> consumer, long delay) {
         return this.handle(plugin, consumer, delay, 0L);
     }
 
-    public MHDFTask runTaskTimer(JavaPlugin plugin, Runnable runnable, long delay, long period) {
+    public CCTask runTaskTimer(JavaPlugin plugin, Runnable runnable, long delay, long period) {
         return this.handle(plugin, runnable, delay, period);
     }
 
-    public MHDFTask runTaskTimer(JavaPlugin plugin, Consumer<MHDFTask> consumer, long delay, long period) {
+    public CCTask runTaskTimer(JavaPlugin plugin, Consumer<CCTask> consumer, long delay, long period) {
         return this.handle(plugin, consumer, delay, period);
     }
 }
