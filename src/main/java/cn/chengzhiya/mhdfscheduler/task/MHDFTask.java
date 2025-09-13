@@ -1,64 +1,49 @@
 package cn.chengzhiya.mhdfscheduler.task;
 
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
+import lombok.Getter;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
 public final class MHDFTask implements Task {
+    private Object taskHandle;
+    @Getter
+    private boolean folia;
 
-    private final Object taskHandle;
-    private boolean isFolia;
-
-    public MHDFTask(BukkitTask bukkitTask) {
-        this.taskHandle = bukkitTask;
-        this.isFolia = false;
+    public MHDFTask() {
     }
 
-    public MHDFTask(ScheduledTask scheduledTask) {
-        this.taskHandle = scheduledTask;
-        this.isFolia = true;
+    public MHDFTask(Object taskHandle) {
+        this.folia = taskHandle instanceof ScheduledTask;
+        this.taskHandle = taskHandle;
     }
 
+    public void setTaskHandle(Object taskHandle) {
+        this.folia = taskHandle instanceof ScheduledTask;
+        this.taskHandle = taskHandle;
+    }
 
     @Override
     public Plugin getOwner() {
-        if (isFolia) {
-            return ((ScheduledTask) taskHandle).getOwningPlugin();
-        } else {
-            return ((BukkitTask) taskHandle).getOwner();
-        }
+        if (this.isFolia()) return ((ScheduledTask) this.taskHandle).getOwningPlugin();
+        else return ((BukkitTask) this.taskHandle).getOwner();
     }
 
     @Override
     public boolean isCancelled() {
-        if (isFolia) {
-            return ((ScheduledTask) taskHandle).isCancelled();
-        } else {
-            return ((BukkitTask) taskHandle).isCancelled();
-        }
+        if (this.isFolia()) return ((ScheduledTask) this.taskHandle).isCancelled();
+        else return ((BukkitTask) this.taskHandle).isCancelled();
     }
 
     @Override
     public void cancel() {
-        if (isFolia) {
-            ((ScheduledTask) taskHandle).cancel();
-        } else {
-            ((BukkitTask) taskHandle).cancel();
-        }
+        if (this.isFolia()) ((ScheduledTask) this.taskHandle).cancel();
+        else ((BukkitTask) this.taskHandle).cancel();
     }
 
     @Override
     public int getTaskId() {
-        if (isFolia) {
-            return -1;  // Folia没有ID
-        } else {
-            return ((BukkitTask) taskHandle).getTaskId();
-        }
+        if (this.isFolia()) throw new IllegalArgumentException("folia not supported getTaskId()");
+        else return ((BukkitTask) this.taskHandle).getTaskId();
     }
-
-    @Override
-    public boolean isFolia(){
-        return isFolia;
-    }
-
 }

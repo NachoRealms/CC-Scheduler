@@ -3,6 +3,8 @@ package cn.chengzhiya.mhdfscheduler.task;
 import org.bukkit.plugin.Plugin;
 
 public interface Task {
+    void setTaskHandle(Object taskHandle);
+
     Plugin getOwner();
 
     boolean isCancelled();
@@ -12,5 +14,4 @@ public interface Task {
     int getTaskId();
 
     boolean isFolia();
-
 }
