@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public final class CCScheduler {
     @Getter
-    private static CCScheduler instance;
+    private static final CCScheduler instance = new CCScheduler();
 
     private final boolean folia;
 
