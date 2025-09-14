@@ -46,6 +46,11 @@ public abstract class CCRunnable implements Runnable {
     }
 
     @Override
+    public void setTaskHandle(Object taskHandle) {
+        throw new UnsupportedOperationException("不支持该方法");
+    }
+
+    @Override
     public Plugin getOwner() {
         return this.ccTask.getOwner();
     }
@@ -58,5 +63,15 @@ public abstract class CCRunnable implements Runnable {
     @Override
     public void cancel() {
         this.ccTask.cancel();
+    }
+
+    @Override
+    public int getTaskId() {
+        return this.ccTask.getTaskId();
+    }
+
+    @Override
+    public boolean isFolia() {
+        return this.ccTask.isFolia();
     }
 }
