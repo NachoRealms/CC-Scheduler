@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 public record EntityScheduler(CCScheduler ccScheduler) {
     @SuppressWarnings("unchecked")
     public CCTask handle(JavaPlugin plugin, Entity entity, Object task, long delay, long period) {
-        CCTask ccTask = new CCTask();
+        CCTask ccTask = new CCTask(this.ccScheduler);
 
         Runnable runnable;
         if (task instanceof Runnable r) runnable = r;

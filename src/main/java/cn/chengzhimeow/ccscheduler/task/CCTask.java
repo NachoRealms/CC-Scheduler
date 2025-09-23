@@ -1,25 +1,25 @@
 package cn.chengzhimeow.ccscheduler.task;
 
+import cn.chengzhimeow.ccscheduler.scheduler.CCScheduler;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import lombok.Getter;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
 public final class CCTask implements Task {
+    private final CCScheduler ccScheduler;
     private Object taskHandle;
     @Getter
     private boolean folia;
 
-    public CCTask() {
-    }
-
-    public CCTask(Object taskHandle) {
-        this.folia = taskHandle instanceof ScheduledTask;
-        this.taskHandle = taskHandle;
+    public CCTask(CCScheduler ccScheduler) {
+        this.ccScheduler = ccScheduler;
     }
 
     public void setTaskHandle(Object taskHandle) {
-        this.folia = taskHandle instanceof ScheduledTask;
+        if (this.ccScheduler.isFolia()) {
+            this.folia = taskHandle instanceof ScheduledTask;
+        } else this.folia = false;
         this.taskHandle = taskHandle;
     }
 

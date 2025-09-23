@@ -24,7 +24,7 @@ public final class RegionScheduler {
 
     @SuppressWarnings("unchecked")
     public CCTask handle(JavaPlugin plugin, World world, int cx, int cz, Object task, long delay, long period) {
-        CCTask ccTask = new CCTask();
+        CCTask ccTask = new CCTask(this.ccScheduler);
 
         Runnable runnable;
         if (task instanceof Runnable r) runnable = r;
@@ -36,9 +36,9 @@ public final class RegionScheduler {
         if (!this.ccScheduler.isFolia()) {
             BukkitScheduler scheduler = (BukkitScheduler) this.schedulerHandle;
             ccTask.setTaskHandle(switch (schedulerType) {
-                case ONLY_RUN -> scheduler.runTaskAsynchronously(plugin, runnable);
-                case DELAY_RUN -> scheduler.runTaskLaterAsynchronously(plugin, runnable, delay);
-                case TASK_RUN -> scheduler.runTaskTimerAsynchronously(plugin, runnable, delay, period);
+                case ONLY_RUN -> scheduler.runTask(plugin, runnable);
+                case DELAY_RUN -> scheduler.runTaskLater(plugin, runnable, delay);
+                case TASK_RUN -> scheduler.runTaskTimer(plugin, runnable, delay, period);
             });
         } else {
             io.papermc.paper.threadedregions.scheduler.RegionScheduler scheduler = (io.papermc.paper.threadedregions.scheduler.RegionScheduler) this.schedulerHandle;
