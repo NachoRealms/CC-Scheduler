@@ -46,19 +46,19 @@ public record EntityScheduler(CCScheduler ccScheduler) {
     }
 
     public CCTask runTask(JavaPlugin plugin, Entity entity, Runnable runnable) {
-        return this.handle(plugin, entity, runnable, 0L, 0L);
+        return this.handle(plugin, entity, runnable, -1L, -1L);
     }
 
     public CCTask runTask(JavaPlugin plugin, Entity entity, Consumer<CCTask> consumer) {
-        return this.handle(plugin, entity, consumer, 0L, 0L);
+        return this.handle(plugin, entity, consumer, -1L, -1L);
     }
 
     public CCTask runTaskLater(JavaPlugin plugin, Entity entity, Runnable runnable, long delay) {
-        return this.handle(plugin, entity, runnable, delay, 0L);
+        return this.handle(plugin, entity, runnable, delay, -1L);
     }
 
     public CCTask runTaskLater(JavaPlugin plugin, Entity entity, Consumer<CCTask> consumer, long delay) {
-        return this.handle(plugin, entity, consumer, delay, 0L);
+        return this.handle(plugin, entity, consumer, delay, -1L);
     }
 
     public CCTask runTaskTimer(JavaPlugin plugin, Entity entity, Runnable runnable, long delay, long period) {

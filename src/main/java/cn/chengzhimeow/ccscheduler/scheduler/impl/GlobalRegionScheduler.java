@@ -63,19 +63,19 @@ public final class GlobalRegionScheduler {
     }
 
     public CCTask runTask(JavaPlugin plugin, Runnable runnable) {
-        return this.handle(plugin, runnable, 0L, 0L);
+        return this.handle(plugin, runnable, -1L, -1L);
     }
 
     public CCTask runTask(JavaPlugin plugin, Consumer<CCTask> consumer) {
-        return this.handle(plugin, consumer, 0L, 0L);
+        return this.handle(plugin, consumer, -1L, -1L);
     }
 
     public CCTask runTaskLater(JavaPlugin plugin, Runnable runnable, long delay) {
-        return this.handle(plugin, runnable, delay, 0L);
+        return this.handle(plugin, runnable, delay, -1L);
     }
 
     public CCTask runTaskLater(JavaPlugin plugin, Consumer<CCTask> consumer, long delay) {
-        return this.handle(plugin, consumer, delay, 0L);
+        return this.handle(plugin, consumer, delay, -1L);
     }
 
     public CCTask runTaskTimer(JavaPlugin plugin, Runnable runnable, long delay, long period) {
