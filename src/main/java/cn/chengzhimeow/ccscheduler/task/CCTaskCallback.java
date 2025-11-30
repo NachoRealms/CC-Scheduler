@@ -2,6 +2,7 @@ package cn.chengzhimeow.ccscheduler.task;
 
 import java.util.concurrent.CompletableFuture;
 
+@SuppressWarnings("unused")
 public final class CCTaskCallback<T> implements CallBack<T> {
     private final CompletableFuture<Boolean> lock = new CompletableFuture<>();
     private T callback;

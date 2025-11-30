@@ -7,6 +7,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
+@SuppressWarnings("unused")
 public abstract class CCRunnable implements Runnable {
     public CCScheduler ccScheduler;
     public CCTask ccTask;
@@ -22,12 +23,12 @@ public abstract class CCRunnable implements Runnable {
 
     @Override
     public void runTaskLater(JavaPlugin plugin, long delay) {
-        this.ccTask = this.ccScheduler.getGlobalRegionScheduler().runTaskLater(plugin, this::run, delay);
+        this.ccTask = this.ccScheduler.getGlobalRegionScheduler().runTaskLater(plugin, delay, this::run);
     }
 
     @Override
     public void runTaskTimer(JavaPlugin plugin, long delay, long period) {
-        this.ccTask = this.ccScheduler.getGlobalRegionScheduler().runTaskTimer(plugin, this::run, delay, period);
+        this.ccTask = this.ccScheduler.getGlobalRegionScheduler().runTaskTimer(plugin, delay, period, this::run);
     }
 
     @Override
@@ -37,12 +38,12 @@ public abstract class CCRunnable implements Runnable {
 
     @Override
     public void runTaskLaterAsynchronously(JavaPlugin plugin, long delay) {
-        this.ccTask = this.ccScheduler.getAsyncScheduler().runTaskLater(plugin, this::run, delay);
+        this.ccTask = this.ccScheduler.getAsyncScheduler().runTaskLater(plugin, delay, this::run);
     }
 
     @Override
     public void runTaskTimerAsynchronously(JavaPlugin plugin, long delay, long period) {
-        this.ccTask = this.ccScheduler.getAsyncScheduler().runTaskTimer(plugin, this::run, delay, period);
+        this.ccTask = this.ccScheduler.getAsyncScheduler().runTaskTimer(plugin, delay, period, this::run);
     }
 
     @Override

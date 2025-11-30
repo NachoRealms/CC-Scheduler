@@ -8,6 +8,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -16,14 +17,14 @@ public final class GlobalRegionScheduler {
     private final CCScheduler ccScheduler;
     private final Object schedulerHandle;
 
-    public GlobalRegionScheduler(CCScheduler ccScheduler) {
+    public GlobalRegionScheduler(@NotNull CCScheduler ccScheduler) {
         this.ccScheduler = ccScheduler;
         if (this.ccScheduler.isFolia()) this.schedulerHandle = Bukkit.getGlobalRegionScheduler();
         else this.schedulerHandle = Bukkit.getScheduler();
     }
 
     @SuppressWarnings("unchecked")
-    public CCTask handle(JavaPlugin plugin, Object task, long delay, long period) {
+    public @NotNull CCTask handle(@NotNull JavaPlugin plugin, @Nullable Long delay, @Nullable Long period, @NotNull Object task) {
         CCTask ccTask = new CCTask(this.ccScheduler);
 
         Runnable runnable;
@@ -37,15 +38,19 @@ public final class GlobalRegionScheduler {
             BukkitScheduler scheduler = (BukkitScheduler) this.schedulerHandle;
             ccTask.setTaskHandle(switch (schedulerType) {
                 case ONLY_RUN -> scheduler.runTask(plugin, runnable);
-                case DELAY_RUN -> scheduler.runTaskLater(plugin, runnable, delay);
-                case TASK_RUN -> scheduler.runTaskTimer(plugin, runnable, delay, period);
+                case DELAY_RUN -> // noinspection DataFlowIssue
+                        scheduler.runTaskLater(plugin, runnable, delay);
+                case TASK_RUN -> // noinspection DataFlowIssue
+                        scheduler.runTaskTimer(plugin, runnable, delay, period);
             });
         } else {
             io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler scheduler = (io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler) this.schedulerHandle;
             ccTask.setTaskHandle(switch (schedulerType) {
                 case ONLY_RUN -> scheduler.run(plugin, (o) -> runnable.run());
-                case DELAY_RUN -> scheduler.runDelayed(plugin, (o) -> runnable.run(), delay);
-                case TASK_RUN -> scheduler.runAtFixedRate(plugin, (o) -> runnable.run(), delay, period);
+                case DELAY_RUN -> // noinspection DataFlowIssue
+                        scheduler.runDelayed(plugin, (o) -> runnable.run(), delay);
+                case TASK_RUN -> // noinspection DataFlowIssue
+                        scheduler.runAtFixedRate(plugin, (o) -> runnable.run(), delay, period);
             });
         }
 
@@ -62,27 +67,47 @@ public final class GlobalRegionScheduler {
         }
     }
 
-    public CCTask runTask(JavaPlugin plugin, Runnable runnable) {
-        return this.handle(plugin, runnable, 0L, 0L);
+    public @NotNull CCTask runTask(@NotNull JavaPlugin plugin, @NotNull Runnable runnable) {
+        return this.handle(plugin, null, null, runnable);
     }
 
-    public CCTask runTask(JavaPlugin plugin, Consumer<CCTask> consumer) {
-        return this.handle(plugin, consumer, 0L, 0L);
+    public @NotNull CCTask runTask(@NotNull JavaPlugin plugin, @NotNull Consumer<CCTask> consumer) {
+        return this.handle(plugin, null, null, consumer);
     }
 
-    public CCTask runTaskLater(JavaPlugin plugin, Runnable runnable, long delay) {
-        return this.handle(plugin, runnable, delay, 0L);
+    public @NotNull CCTask runTaskLater(@NotNull JavaPlugin plugin, long delay, @NotNull Runnable runnable) {
+        return this.handle(plugin, delay, null, runnable);
     }
 
-    public CCTask runTaskLater(JavaPlugin plugin, Consumer<CCTask> consumer, long delay) {
-        return this.handle(plugin, consumer, delay, 0L);
+    public @NotNull CCTask runTaskLater(@NotNull JavaPlugin plugin, long delay, @NotNull Consumer<CCTask> consumer) {
+        return this.handle(plugin, delay, null, consumer);
     }
 
-    public CCTask runTaskTimer(JavaPlugin plugin, Runnable runnable, long delay, long period) {
-        return this.handle(plugin, runnable, delay, period);
+    @Deprecated
+    public @NotNull CCTask runTaskLater(@NotNull JavaPlugin plugin, @NotNull Runnable runnable, long delay) {
+        return this.runTaskLater(plugin, delay, runnable);
     }
 
-    public CCTask runTaskTimer(JavaPlugin plugin, Consumer<CCTask> consumer, long delay, long period) {
-        return this.handle(plugin, consumer, delay, period);
+    @Deprecated
+    public @NotNull CCTask runTaskLater(@NotNull JavaPlugin plugin, @NotNull Consumer<CCTask> consumer, long delay) {
+        return this.runTaskLater(plugin, delay, consumer);
+    }
+
+    public @NotNull CCTask runTaskTimer(@NotNull JavaPlugin plugin, long delay, long period, @NotNull Runnable runnable) {
+        return this.handle(plugin, delay, period, runnable);
+    }
+
+    public @NotNull CCTask runTaskTimer(@NotNull JavaPlugin plugin, long delay, long period, @NotNull Consumer<CCTask> consumer) {
+        return this.handle(plugin, delay, period, consumer);
+    }
+
+    @Deprecated
+    public @NotNull CCTask runTaskTimer(@NotNull JavaPlugin plugin, @NotNull Runnable runnable, long delay, long period) {
+        return this.runTaskTimer(plugin, delay, period, runnable);
+    }
+
+    @Deprecated
+    public @NotNull CCTask runTaskTimer(@NotNull JavaPlugin plugin, @NotNull Consumer<CCTask> consumer, long delay, long period) {
+        return this.runTaskTimer(plugin, delay, period, consumer);
     }
 }

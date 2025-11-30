@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
+@SuppressWarnings("unused")
 public final class CCTask implements Task {
     private final CCScheduler ccScheduler;
     private Object taskHandle;

@@ -3,6 +3,7 @@ package cn.chengzhimeow.ccscheduler.runnable;
 import cn.chengzhimeow.ccscheduler.task.Task;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@SuppressWarnings("unused")
 public interface Runnable extends Task {
     void run();
 

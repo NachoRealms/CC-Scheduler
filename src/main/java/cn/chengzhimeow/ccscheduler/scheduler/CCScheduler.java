@@ -9,8 +9,9 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
+@SuppressWarnings("unused")
 public final class CCScheduler {
-    @Getter
+    @Getter(lazy = true)
     private static final CCScheduler instance = new CCScheduler();
 
     private final boolean folia;
